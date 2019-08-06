@@ -28,7 +28,9 @@ cc.Class({
         // this.testToggleContainer.addChild(testToggle3);
         // testToggle3.setPosition(70,70);
         // testToggle3.setContentSize(150,50)
-        this.testCreate()
+
+        
+        // this.testCreate()
     },
 
     start () {
