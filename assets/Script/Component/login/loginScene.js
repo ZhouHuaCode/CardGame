@@ -38,4 +38,12 @@ cc.Class({
     },
 
     // update (dt) {},
+
+    onLoginBtnClick:function(){
+        cc.director.loadScene("HallScene");
+        // cc.director.preloadScene("hall",function () {
+        //     cc.loader.onProgress = null;
+        //     self.loadGameScene();
+        // });
+    },
 });
