@@ -38,6 +38,10 @@ cc.Class({
 
     },
 
+    ctor () {
+        
+    },
+
     start () {
 
     },

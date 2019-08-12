@@ -15,7 +15,15 @@ cc.Class({
         // testToggleContainer:cc.Node,
         // testToggle:cc.Node,
         scrollCont:cc.Node,
+        wanfaLabelPrefab:cc.Prefab,
+        // testNode:cc.Node,
     },
+
+    // onTestClick:function(){
+    //     var preInteractable = this.testNode.getComponent("createRoomToggle").interactable;
+    //     this.testNode.getComponent("createRoomToggle").interactable = !preInteractable;
+    //     this.testNode.getComponent("createRoomToggle")._setCheckType(1)
+    // },
 
     // LIFE-CYCLE CALLBACKS:
 
@@ -31,6 +39,18 @@ cc.Class({
 
         
         // this.testCreate()
+        var createRoomNode = new cc.Node;
+        this.scrollCont.addChild(createRoomNode);
+        // self.preCreateNodes[self.lastCreateGameName] = createRoomNode;
+        // self.createToAdd.addChild(createRoomNode);
+        // var compStr = self.lastCreateGameName + "Create";
+        var compStr = "zzmj_ctrl"
+        createRoomNode.addComponent(compStr);
+        this.createScript = createRoomNode.getComponent(compStr);
+        this.createScript.wanfaLabelPrefab = this.wanfaLabelPrefab;
+        this.createScript.hallJs = this;
+        // this.createScript.setShowType(cc.vv.enum.createType.createType_hall);
+        this.createScript.showView();
     },
 
     start () {

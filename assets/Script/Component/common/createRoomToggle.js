@@ -25,6 +25,7 @@ cc.Class({
 
         backSp:cc.Sprite,
         checkSp:cc.Sprite,
+        textLabel:cc.Label,
 
         interactable: {
             default: true,
@@ -39,14 +40,31 @@ cc.Class({
             animatable: false
         },
 
-        // enableAutoGrayEffect: {
-        //     default: false,
-        //     tooltip: CC_DEV && 'i18n:COMPONENT.button.auto_gray_effect',
-        //     notify () {
-        //         this._updateDisabledState();
-        //     }
-        // },
+        enableAutoGrayEffect: {
+            default: false,
+            tooltip: CC_DEV && 'i18n:COMPONENT.button.auto_gray_effect',
+            notify () {
+                this._updateDisabledState();
+            }
+        },
 
+        _N$isChecked: true,
+        isChecked: {
+            get: function () {
+                return this._N$isChecked;
+            },
+            set: function (value) {
+                if (value === this._N$isChecked) {
+                    return;
+                }
+
+                this._N$isChecked = value;
+                this._updateCheckMark();
+
+                this._emitToggleEvents();
+            },
+            tooltip: CC_DEV && 'i18n:COMPONENT.toggle.isChecked',
+        },
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -66,6 +84,8 @@ cc.Class({
         this._spriteMaterial = null;
 
         this._sprite = null;
+
+        this.zoomScale = 1.2;
     },
 
     onLoad () {
@@ -126,8 +146,8 @@ cc.Class({
             ratio = 1;
         }
 
-        this.backSp.scale = this._fromScale.lerp(this._toScale, ratio);
-        this.checkSp.scale = this._fromScale.lerp(this._toScale, ratio);
+        this.backSp.node.scale = this._fromScale.lerp(this._toScale, ratio);
+        this.checkSp.node.scale = this._fromScale.lerp(this._toScale, ratio);
 
         if (ratio === 1) {
             this._transitionFinished = true;
@@ -158,13 +178,12 @@ cc.Class({
         if (!this._originalScale) {
             this._originalScale = cc.Vec2.ZERO;
         }
-        this._originalScale.x = this.backSp.scaleX;
-        this._originalScale.y = this.backSp.scaleY;
+        this._originalScale.x = this.backSp.node.scaleX;
+        this._originalScale.y = this.backSp.node.scaleY;
     },
 
     _onTouchBegan (event) {
         if (!this.interactable) return;
-
         this._pressed = true;
         this._updateState();
         event.stopPropagation();
@@ -200,8 +219,15 @@ cc.Class({
         if (!this.interactable) return;
 
         if (this._pressed) {
-            cc.Component.EventHandler.emitEvents(this.clickEvents, event);
-            this.node.emit('click', this);
+            // this.interactable = false;
+            // this._updateState();
+
+            // if (!this.interactable) {
+            //     this._resetState();
+            // }
+            // this.interactable = false;
+            // cc.Component.EventHandler.emitEvents(this.clickEvents, event);
+            // this.node.emit('click', this);
         }
         this._pressed = false;
         this._updateState();
@@ -230,9 +256,6 @@ cc.Class({
             this._updateState();
         }
     },
-
-
-
 
     _updateState () {
         let state = this._getButtonState();
@@ -285,20 +308,88 @@ cc.Class({
             return;
         }
 
-        let target = this._getTarget();
-        this._fromScale.x = target.scaleX;
-        this._fromScale.y = target.scaleY;
+        // let target = this._getTarget();
+        this._fromScale.x = this.backSp.node.scaleX;
+        this._fromScale.y = this.backSp.node.scaleY;
         this._toScale.x = this._originalScale.x;
         this._toScale.y = this._originalScale.y;
         this.time = 0;
         this._transitionFinished = false;
     },
 
-        // let material = this.checkSp.sharedMaterials[1];
-        // material = cc.Material.getInstantiatedMaterial(material, this);
-        // material.setProperty('texture', this.checkSp.spriteFrame.getTexture());
+    _updateDisabledState () {
+        if (this.backSp && this.checkSp) {
+            if (this.enableAutoGrayEffect) {
+                if (!this.interactable) {
+                    if (this.backSp){
+                        let material = this.backSp.sharedMaterials[0];
+                        material = cc.Material.getInstantiatedBuiltinMaterial('2d-gray-sprite', this);
+                        material = cc.Material.getInstantiatedMaterial(material, this);
+                        material.setProperty('texture', this.backSp.spriteFrame.getTexture());
+                        this.backSp.setMaterial(0, material);
+                        this.backSp.markForUpdateRenderData(true);
+                        this.backSp.markForRender(true);
+                    }
+                    if (this.checkSp){
+                        let material = this.checkSp.sharedMaterials[0];
+                        material = cc.Material.getInstantiatedBuiltinMaterial('2d-gray-sprite', this);
+                        material = cc.Material.getInstantiatedMaterial(material, this);
+                        material.setProperty('texture', this.checkSp.spriteFrame.getTexture());
+                        this.checkSp.setMaterial(0, material);
+                        this.checkSp.markForUpdateRenderData(true);
+                        this.checkSp.markForRender(true);
+                    }
+                    if (this.textLabel){
+                        this.textLabel.node.color = cc.Color.GRAY;
+                    }
+                }else {
+                    if (this.backSp){
+                        let material = this.backSp.sharedMaterials[0];
+                        material = cc.Material.getInstantiatedBuiltinMaterial('2d-sprite', this);
+                        material = cc.Material.getInstantiatedMaterial(material, this);
+                        material.setProperty('texture', this.backSp.spriteFrame.getTexture());
+                        this.backSp.setMaterial(0, material);
+                        this.backSp.markForUpdateRenderData(true);
+                        this.backSp.markForRender(true);
+                    }
+                    if (this.checkSp){
+                        let material = this.checkSp.sharedMaterials[0];
+                        material = cc.Material.getInstantiatedBuiltinMaterial('2d-sprite', this);
+                        material = cc.Material.getInstantiatedMaterial(material, this);
+                        material.setProperty('texture', this.checkSp.spriteFrame.getTexture());
+                        this.checkSp.setMaterial(0, material);
+                        this.checkSp.markForUpdateRenderData(true);
+                        this.checkSp.markForRender(true);
+                    }
+                    if (this.textLabel){
+                        this.textLabel.node.color = cc.Color.WHITE;
+                    }
+                }
+            }
+        }
+    },
 
-        // this.checkSp.setMaterial(0, material);
-        // this.checkSp.markForRender(true);
+    /**
+     * !#en Make the toggle button checked.
+     * !#zh 使 toggle 按钮处于选中状态
+     * @method check
+     */
+    check: function () {
+        this.isChecked = true;
+    },
 
+    /**
+     * !#en Make the toggle button unchecked.
+     * !#zh 使 toggle 按钮处于未选中状态
+     * @method uncheck
+     */
+    uncheck: function () {
+        this.isChecked = false;
+    },
+
+    _updateCheckMark: function () {
+        if (this.checkSp) {
+            this.checkSp.node.active = !!this.isChecked;
+        }
+    },
 });
