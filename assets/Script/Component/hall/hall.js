@@ -16,6 +16,7 @@ cc.Class({
         // testToggle:cc.Node,
         scrollCont:cc.Node,
         wanfaLabelPrefab:cc.Prefab,
+        createTogglePrefab:cc.Prefab,
         // testNode:cc.Node,
     },
 

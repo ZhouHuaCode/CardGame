@@ -60,8 +60,7 @@ cc.Class({
 
                 this._N$isChecked = value;
                 this._updateCheckMark();
-
-                this._emitToggleEvents();
+                this._updateToggles();
             },
             tooltip: CC_DEV && 'i18n:COMPONENT.toggle.isChecked',
         },
@@ -84,6 +83,7 @@ cc.Class({
         this._spriteMaterial = null;
 
         this._sprite = null;
+        this._checkType = CheckType.RADIO;
 
         this.zoomScale = 1.2;
     },
@@ -92,7 +92,6 @@ cc.Class({
     	// this._setCheckType(CheckType.MULTICHECK)
     	this._applyTarget();
     	this._updateState();
-
     },
 
     _setCheckType:function(type) {
@@ -219,15 +218,9 @@ cc.Class({
         if (!this.interactable) return;
 
         if (this._pressed) {
-            // this.interactable = false;
-            // this._updateState();
-
-            // if (!this.interactable) {
-            //     this._resetState();
-            // }
-            // this.interactable = false;
-            // cc.Component.EventHandler.emitEvents(this.clickEvents, event);
-            // this.node.emit('click', this);
+            if(this._checkType == CheckType.RADIO){
+                this.check();
+            }
         }
         this._pressed = false;
         this._updateState();
@@ -387,9 +380,41 @@ cc.Class({
         this.isChecked = false;
     },
 
+    _hideCheckMark: function () {
+        this._N$isChecked = false;
+        this._updateCheckMark();
+    },
+
     _updateCheckMark: function () {
         if (this.checkSp) {
             this.checkSp.node.active = !!this.isChecked;
         }
+    },
+
+    _emitToggleEvents: function () {
+        this.node.emit('toggle', this);
+        if (this.checkEvents) {
+            cc.Component.EventHandler.emitEvents(this.checkEvents, this);
+        }
+    },
+
+    _updateToggles: function () {
+        this._toggleContainer = null;
+        var self = this
+        let parent = this.node.parent;
+        if (cc.Node.isNode(parent)) {
+            this._toggleContainer = parent.getComponent(cc.ToggleContainer);
+            let toggleItems = parent.getComponentsInChildren("createRoomToggle");
+            toggleItems.forEach(function (item) {
+                if (item !== self && item.isChecked && item.enabled) {
+                    item._hideCheckMark();
+                }
+            });
+        }
+
+                // if (this._toggleContainer && this._toggleContainer.enabled) {
+                //     this._toggleContainer.updateToggles(this);
+                // }
+                // this._emitToggleEvents();
     },
 });

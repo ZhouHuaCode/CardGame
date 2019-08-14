@@ -45,24 +45,47 @@ cc.Class({
 
     initUI:function(){
         var line = 0;
+        this.wnafaNodeArr = []
         for (const key in this.args_wanfa_Img) {
             var wanfaNode = new cc.Node;
+            this.wnafaNodeArr.push(wanfaNode)
             this.node.addChild(wanfaNode);
             wanfaNode.setPosition(-300,line*-60 - 40)
-            this.wanfaLabel = cc.instantiate(this.wanfaLabelPrefab);
-            this.wanfaLabel.getComponent(cc.Label).string = this.args_wanfa_Img[key].name;
-            wanfaNode.addChild(this.wanfaLabel);
+            var wanfaLabel = cc.instantiate(this.wanfaLabelPrefab);
+            wanfaLabel.getComponent(cc.Label).string = this.args_wanfa_Img[key].name;
+            wanfaNode.addChild(wanfaLabel);
             if (this.args_wanfa_Img[key].height){
                 line += this.args_wanfa_Img[key].height;
             }else{
                 line++;
             }
         }
+
         this.allLine = line
-        if(this.hallJs){
-            this.hallJs.scrollCont.setContentSize(this.hallJs.scrollCont.getContentSize().width,
-                this.allLine*60);
+        
+        this.hallJs.scrollCont.setContentSize(this.hallJs.scrollCont.getContentSize().width,
+            this.allLine*60);
+
+        for (const key in this.checkDesImg_table){
+            if(this.checkDesImg_table[key].type == "danxuan"){
+                var checkBtnsName = this.checkDesImg_table[key].name;
+                var checkBtnsPosX = this.checkDesImg_table[key].posx;
+                var checkBtnsPosY = this.checkDesImg_table[key].posy;
+                var sortIndex = this.checkDesImg_table[key].sortIndex;
+                for(const key2 in checkBtnsName){
+                    var toggleNode = cc.instantiate(this.hallJs.createTogglePrefab);
+                    this.wnafaNodeArr[sortIndex].addChild(toggleNode);
+
+                    toggleNode.setPosition(checkBtnsPosX[key2],checkBtnsPosY[key2]*-this.lineHeight);
+                    if(key2 == 0){
+                        toggleNode.getComponent("createRoomToggle").check();
+                    }
+                    // 加入点击事件
+                    
+                }
+            }
         }
+        
         
     },
 });

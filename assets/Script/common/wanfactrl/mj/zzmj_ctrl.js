@@ -40,7 +40,9 @@ cc.Class({
     // update (dt) {},
     setInfo:function(){
         var self = this;
-
+        var x1 = -50;
+        var x2 = 200;
+        var x3 = 450;
         // 每个节点组   一个节点组只能包含一个单选组
         // sortIndex:  节点序列
         // nodeHeight: 节点所占高度
@@ -87,11 +89,12 @@ cc.Class({
         this.checkDesImg_table = [
             {
                 type : "danxuan",
-                name : { 0 : "check_ju4",1 : "check_ju8", 2 : "check_ju16"},
-                labledata : { 0 : "4局(1钻石)",1 : "8局(1钻石)", 2 : "16局(2钻石)"},
-                guildlabledata : { 0 : "4局(5房卡)",1 : "8局(10房卡)", 2 : "16局(20房卡)"},
-                posx : { 0 : x1, 1 : x2, 2 : x3},
-                posy : { 0 : 0, 1 : 0, 2 : 0},
+                sortIndex : 0,
+                name : { 0 : "check_ju1",1 : "check_ju4", 2 : "check_ju8", 3 : "check_ju12", 4 : "check_ju16"},
+                // labledata : { 0 : "8局(1钻石)",1 : "16局(2钻石)"},
+                labeldata : { 0 : "1局(2房卡)",1 : "4局(5房卡)", 2 : "8局(10房卡)", 3 : "12局(15房卡)", 4 : "16局(20房卡)"},
+                posx : { 0 : x1, 1 : x2, 2 : x3, 3 : x1, 4 : x2},
+                posy : { 0 : 0, 1 : 0, 2 : 0, 3 : 1, 4 : 1},
             },
         ];
         // cc.log(this.args_wanfa_Img)

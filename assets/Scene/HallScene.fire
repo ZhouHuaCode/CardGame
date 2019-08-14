@@ -59,7 +59,7 @@
   {
     "__type__": "cc.Node",
     "_name": "Canvas",
-    "_objFlags": 0,
+    "_objFlags": 512,
     "_parent": {
       "__id__": 1
     },
@@ -1664,6 +1664,9 @@
     },
     "wanfaLabelPrefab": {
       "__uuid__": "fc5eb5cd-6292-44a7-a961-f3f89e992829"
+    },
+    "createTogglePrefab": {
+      "__uuid__": "008df53d-e24f-41b1-ba19-c6161e52e4a8"
     },
     "_id": "c1GwJ0drVARJkfit+gpQ9J"
   }
