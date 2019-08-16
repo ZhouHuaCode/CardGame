@@ -73,6 +73,7 @@ cc.Class({
                 var checkBtnsPosX = this.checkDesImg_table[key].posx;
                 var checkBtnsPosY = this.checkDesImg_table[key].posy;
                 var sortIndex = this.checkDesImg_table[key].sortIndex;
+                var groupIndex = this.checkDesImg_table[key].groupIndex;
                 if ( !sortIndex ){
                     sortIndex = key;
                 }
@@ -82,14 +83,18 @@ cc.Class({
                     var toggleNode = cc.instantiate(this.hallJs.createTogglePrefab);
                     this.wanfaNodeArr[sortIndex].addChild(toggleNode);
                     toggleNode.setPosition(checkBtnsPosX[key2],checkBtnsPosY[key2]*-this.lineHeight);
+                    
+                    toggleNode.getComponent("createRoomToggle").setToggleName(checkBtnsName[key2]);
+                    toggleNode.getComponent("createRoomToggle").setToggleText(checkLabel[key2]);
+                    if(groupIndex){
+                        toggleNode.getComponent("createRoomToggle").setGroupIndex(groupIndex);
+                    }
+
                     if(key2 == 0){
                         toggleNode.getComponent("createRoomToggle").check();
                     }
-                    toggleNode.getComponent("createRoomToggle").setToggleName(checkBtnsName[key2]);
-                    toggleNode.getComponent("createRoomToggle").setToggleText(checkLabel[key2]);
+                    
                     this.checkNodeArr[checkBtnsName[key2]] = toggleNode;
-                    // 加入点击事件
-                    // toggleNode.getComponent("createRoomToggle").setCheckHandle(this.createToggleClick.bind(this));
                     if(checkHandler){
                         toggleNode.getComponent("createRoomToggle").setCheckHandle(checkHandler.bind(this));
                     }
@@ -108,8 +113,7 @@ cc.Class({
                     var toggleNode = cc.instantiate(this.hallJs.createTogglePrefab);
                     this.wanfaNodeArr[sortIndex].addChild(toggleNode);
                     toggleNode.setPosition(checkBtnsPosX[key2],checkBtnsPosY[key2]*-this.lineHeight);
-                    
-                    toggleNode.getComponent("createRoomToggle")._setCheckType(1);
+                    toggleNode.getComponent("createRoomToggle").setCheckType(1);
                     toggleNode.getComponent("createRoomToggle").setToggleName(checkBtnsName[key2]);
                     toggleNode.getComponent("createRoomToggle").setToggleText(checkLabel[key2]);
                     this.checkNodeArr[checkBtnsName[key2]] = toggleNode;

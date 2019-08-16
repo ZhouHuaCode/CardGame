@@ -95,7 +95,7 @@ cc.Class({
     	this._updateState();
     },
 
-    _setCheckType:function(type) {
+    setCheckType:function(type) {
         this._checkType = type;
     	if (type == CheckType.MULTICHECK) {
     		this.backSp.spriteFrame = this.checkBackImage;
@@ -222,6 +222,12 @@ cc.Class({
         if (this._pressed) {
             if(this._checkType == CheckType.RADIO){
                 this.check();
+            }else{
+                if(this.isChecked){
+                    this.uncheck();
+                }else{
+                    this.check();
+                }
             }
         }
         this._pressed = false;
@@ -400,7 +406,6 @@ cc.Class({
             if(!this.interactable){
                 this.textLabel.node.color = cc.Color.GRAY;
             }else if(this.isChecked){
-                // 255,60,60
                 this.textLabel.node.color = cc.Color.RED;
             }else {
                 this.textLabel.node.color = cc.Color.WHITE;
@@ -423,11 +428,10 @@ cc.Class({
         var self = this
         let parent = this.node.parent;
         if (cc.Node.isNode(parent) && this._checkType == CheckType.RADIO) {
-            cc.log("_updateToggles")
             this._toggleContainer = parent.getComponent(cc.ToggleContainer);
             let toggleItems = parent.getComponentsInChildren("createRoomToggle");
             toggleItems.forEach(function (item) {
-                if (item !== self && item.isChecked && item.enabled) {
+                if (item !== self && item.isChecked && item.enabled && ((!self.groupIndex) || (self.groupIndex == item.groupIndex))) {
                     item._hideCheckMark();
                 }
             });
@@ -447,5 +451,9 @@ cc.Class({
 
     setCheckHandle: function (callback) {
         this.checkHandle = callback;
+    },
+
+    setGroupIndex: function (index) {
+        this.groupIndex = index;
     },
 });

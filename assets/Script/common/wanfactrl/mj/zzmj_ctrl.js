@@ -46,6 +46,7 @@ cc.Class({
         var x25 = 300;
         var x3 = 450;
         var x35 = 550;
+
         // 每个节点组   一个节点组只能包含一个单选组
         // sortIndex:  节点序列
         // nodeHeight: 节点所占高度
@@ -78,6 +79,7 @@ cc.Class({
             },
             {
                 name : "扎鸟",
+                height : 3,
             },
             {
                 name : "首局",
@@ -136,6 +138,68 @@ cc.Class({
                     5:"258做将",6:"荒庄荒杠"},
                 posx : { 0 : x1, 1 : x15 , 2 : x25 , 3 : x35 , 4 : x1, 5 : x15, 6 : x25},
                 posy : { 0 : 0, 1 : 0, 2 : 0, 3 : 0, 4 : 1, 5 : 1, 6 : 1},
+            },
+            {
+                type : "danxuan",
+                sortIndex : 5,
+                groupIndex : 1,
+                // handler :  this.renshuHandler.bind(self),
+                name : { 0 : "check_bzn",1 : "check_znjf",2 : "check_znfb"},
+                labeldata : { 0 : "不扎鸟",1 : "中鸟加分",2 : "中鸟翻倍"},
+                posx : { 0 : x1, 1 : x2 , 2 : x3},
+                posy : { 0 : 0, 1 : 0, 2 : 0},
+            },
+            {
+                type : "danxuan",
+                sortIndex : 5,
+                groupIndex : 2,
+                // handler :  this.renshuHandler.bind(self),
+                name : { 0 : "check_159zn",1 : "check_zjzn"},
+                labeldata : { 0 : "159中鸟",1 : "按庄家中鸟"},
+                posx : { 0 : x1, 1 : x2 },
+                posy : { 0 : 1, 1 : 1},
+            },
+            {
+                type : "danxuan",
+                sortIndex : 5,
+                groupIndex : 3,
+                name : { 0 : "check_z2n",1 : "check_z4n",2 : "check_z6n"},
+                labeldata : { 0 : "扎2鸟(+2分)",1 : "扎4鸟(+4分)",2 : "扎6鸟(+6分)"},
+                posx : { 0 : x1, 1 : x2 , 2 : x3},
+                posy : { 0 : 2, 1 : 2, 2 : 2},
+            },
+            {
+                type : "danxuan",
+                sortIndex : 5,
+                groupIndex : 4,
+                name : { 0 : "check_z12n",1 : "check_z23n"},
+                labeldata : { 0 : "扎1鸟(x2倍)",1 : "扎2鸟(x3倍)"},
+                posx : { 0 : x1, 1 : x2 },
+                posy : { 0 : 2, 1 : 2},
+            },
+            {
+                type : "danxuan",
+                sortIndex : 6,
+                name : { 0 : "check_fzzz",1 : "check_dszz"},
+                labeldata : { 0 : "房主坐庄",1 : "打骰坐庄"},
+                posx : { 0 : x1, 1 : x2 },
+                posy : { 0 : 0, 1 : 0},
+            },
+            {
+                type : "duoxuan",
+                sortIndex : 7,
+                name : { 0 : "check_mjhw"},
+                labeldata : { 0 : "每局换位"},
+                posx : { 0 : x1},
+                posy : { 0 : 0},
+            },
+            {
+                type : "danxuan",
+                sortIndex : 8,
+                name : { 0 : "check_gb",1 : "check_60m",2 : "check_90m",3 : "check_180m"},
+                labeldata : { 0 : "关闭",1 : "60秒",2 : "90秒",3 : "180秒"},
+                posx : { 0 : x15, 1 : 220 , 2 : 340, 3 : 460},
+                posy : { 0 : 0, 1 : 0, 2 : 0, 3 : 0},
             },
         ];
         // cc.log(this.args_wanfa_Img)
