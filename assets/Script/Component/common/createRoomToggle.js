@@ -61,6 +61,7 @@ cc.Class({
                 this._N$isChecked = value;
                 this._updateCheckMark();
                 this._updateToggles();
+                this._emitToggleEvents();
             },
             tooltip: CC_DEV && 'i18n:COMPONENT.toggle.isChecked',
         },
@@ -95,6 +96,7 @@ cc.Class({
     },
 
     _setCheckType:function(type) {
+        this._checkType = type;
     	if (type == CheckType.MULTICHECK) {
     		this.backSp.spriteFrame = this.checkBackImage;
     		this.checkSp.spriteFrame = this.checkCheckImage;
@@ -355,7 +357,12 @@ cc.Class({
                         this.checkSp.markForRender(true);
                     }
                     if (this.textLabel){
-                        this.textLabel.node.color = cc.Color.WHITE;
+                        if(this.isChecked){
+                            this.textLabel.node.color = cc.Color.RED;
+                        }else{
+                            this.textLabel.node.color = cc.Color.WHITE;
+                        }
+                        
                     }
                 }
             }
@@ -389,12 +396,25 @@ cc.Class({
         if (this.checkSp) {
             this.checkSp.node.active = !!this.isChecked;
         }
+        if(this.textLabel){
+            if(!this.interactable){
+                this.textLabel.node.color = cc.Color.GRAY;
+            }else if(this.isChecked){
+                // 255,60,60
+                this.textLabel.node.color = cc.Color.RED;
+            }else {
+                this.textLabel.node.color = cc.Color.WHITE;
+            }
+        }
     },
 
     _emitToggleEvents: function () {
-        this.node.emit('toggle', this);
-        if (this.checkEvents) {
-            cc.Component.EventHandler.emitEvents(this.checkEvents, this);
+        // this.node.emit('toggle', this);
+        // if (this.checkEvents) {
+        //     cc.Component.EventHandler.emitEvents(this.checkEvents, this);
+        // }
+        if(this.checkHandle){
+            this.checkHandle(this.toggleName);
         }
     },
 
@@ -402,7 +422,8 @@ cc.Class({
         this._toggleContainer = null;
         var self = this
         let parent = this.node.parent;
-        if (cc.Node.isNode(parent)) {
+        if (cc.Node.isNode(parent) && this._checkType == CheckType.RADIO) {
+            cc.log("_updateToggles")
             this._toggleContainer = parent.getComponent(cc.ToggleContainer);
             let toggleItems = parent.getComponentsInChildren("createRoomToggle");
             toggleItems.forEach(function (item) {
@@ -411,10 +432,20 @@ cc.Class({
                 }
             });
         }
+    },
 
-                // if (this._toggleContainer && this._toggleContainer.enabled) {
-                //     this._toggleContainer.updateToggles(this);
-                // }
-                // this._emitToggleEvents();
+    setToggleName: function (str) {
+        this.toggleName = str;
+    },
+
+    setToggleText: function (str) {
+        this.toggleText = str;
+        if(this.textLabel){
+            this.textLabel.string = this.toggleText;
+        }
+    },
+
+    setCheckHandle: function (callback) {
+        this.checkHandle = callback;
     },
 });

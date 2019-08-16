@@ -317,8 +317,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 120,
-      "height": 50.4
+      "width": 96,
+      "height": 40.32
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -327,8 +327,8 @@
     },
     "_position": {
       "__type__": "cc.Vec3",
-      "x": 46.556,
-      "y": 2.912,
+      "x": 42.811,
+      "y": 1.976,
       "z": 0
     },
     "_scale": {
@@ -367,8 +367,8 @@
     "_useOriginalSize": false,
     "_string": "环氧化",
     "_N$string": "环氧化",
-    "_fontSize": 40,
-    "_lineHeight": 40,
+    "_fontSize": 32,
+    "_lineHeight": 32,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,

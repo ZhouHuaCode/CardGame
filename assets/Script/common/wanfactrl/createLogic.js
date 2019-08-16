@@ -45,10 +45,11 @@ cc.Class({
 
     initUI:function(){
         var line = 0;
-        this.wnafaNodeArr = []
+        this.wanfaNodeArr = []
+        this.checkNodeArr = []
         for (const key in this.args_wanfa_Img) {
             var wanfaNode = new cc.Node;
-            this.wnafaNodeArr.push(wanfaNode)
+            this.wanfaNodeArr.push(wanfaNode)
             this.node.addChild(wanfaNode);
             wanfaNode.setPosition(-300,line*-60 - 40)
             var wanfaLabel = cc.instantiate(this.wanfaLabelPrefab);
@@ -72,20 +73,62 @@ cc.Class({
                 var checkBtnsPosX = this.checkDesImg_table[key].posx;
                 var checkBtnsPosY = this.checkDesImg_table[key].posy;
                 var sortIndex = this.checkDesImg_table[key].sortIndex;
+                if ( !sortIndex ){
+                    sortIndex = key;
+                }
+                var checkHandler = this.checkDesImg_table[key].handler;
+                var checkLabel = this.checkDesImg_table[key].labeldata;
                 for(const key2 in checkBtnsName){
                     var toggleNode = cc.instantiate(this.hallJs.createTogglePrefab);
-                    this.wnafaNodeArr[sortIndex].addChild(toggleNode);
-
+                    this.wanfaNodeArr[sortIndex].addChild(toggleNode);
                     toggleNode.setPosition(checkBtnsPosX[key2],checkBtnsPosY[key2]*-this.lineHeight);
                     if(key2 == 0){
                         toggleNode.getComponent("createRoomToggle").check();
                     }
+                    toggleNode.getComponent("createRoomToggle").setToggleName(checkBtnsName[key2]);
+                    toggleNode.getComponent("createRoomToggle").setToggleText(checkLabel[key2]);
+                    this.checkNodeArr[checkBtnsName[key2]] = toggleNode;
                     // 加入点击事件
+                    // toggleNode.getComponent("createRoomToggle").setCheckHandle(this.createToggleClick.bind(this));
+                    if(checkHandler){
+                        toggleNode.getComponent("createRoomToggle").setCheckHandle(checkHandler.bind(this));
+                    }
+                }
+            }else if(this.checkDesImg_table[key].type == "duoxuan"){
+                var checkBtnsName = this.checkDesImg_table[key].name;
+                var checkBtnsPosX = this.checkDesImg_table[key].posx;
+                var checkBtnsPosY = this.checkDesImg_table[key].posy;
+                var sortIndex = this.checkDesImg_table[key].sortIndex;
+                if ( !sortIndex ){
+                    sortIndex = key;
+                }
+                var checkHandler = this.checkDesImg_table[key].handler;
+                var checkLabel = this.checkDesImg_table[key].labeldata;
+                for(const key2 in checkBtnsName){
+                    var toggleNode = cc.instantiate(this.hallJs.createTogglePrefab);
+                    this.wanfaNodeArr[sortIndex].addChild(toggleNode);
+                    toggleNode.setPosition(checkBtnsPosX[key2],checkBtnsPosY[key2]*-this.lineHeight);
                     
+                    toggleNode.getComponent("createRoomToggle")._setCheckType(1);
+                    toggleNode.getComponent("createRoomToggle").setToggleName(checkBtnsName[key2]);
+                    toggleNode.getComponent("createRoomToggle").setToggleText(checkLabel[key2]);
+                    this.checkNodeArr[checkBtnsName[key2]] = toggleNode;
+                    // 加入点击事件
+                    // toggleNode.getComponent("createRoomToggle").setCheckHandle(this.createToggleClick.bind(this));
+                    if(checkHandler){
+                        toggleNode.getComponent("createRoomToggle").setCheckHandle(checkHandler.bind(this));
+                    }
                 }
             }
         }
-        
-        
+    },
+
+    // createToggleClick:function(toggleName){
+    //     cc.log(toggleName)
+    // },
+
+    renshuHandler:function(param){
+        cc.log("renshuHandler createLogic")
+        // cc.log(this.checkNodeArr[param])
     },
 });
