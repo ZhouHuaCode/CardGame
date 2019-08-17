@@ -40,7 +40,7 @@ cc.Class({
         this.setInfo();
         // this.confisetInfo();    // 根据配置重置房卡显示数据
         this.initUI();
-        // this.setToRule();
+        this.setToRule();
     },
 
     initUI:function(){
@@ -135,4 +135,10 @@ cc.Class({
         cc.log("renshuHandler createLogic")
         // cc.log(this.checkNodeArr[param])
     },
+
+    setToRule:function(){
+        cc.log("setToRule createLogic")
+        // cc.log(this.checkNodeArr[param])
+    },
+
 });

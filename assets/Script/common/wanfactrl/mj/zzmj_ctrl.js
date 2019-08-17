@@ -215,4 +215,9 @@ cc.Class({
         cc.log("renshuHandler zzmj_ctrl")
         // cc.log(this.checkNodeArr[param])
     },
+    
+    setToRule:function(){
+        cc.log("setToRule zzmj_ctrl")
+        // cc.log(this.checkNodeArr[param])
+    },
 });
