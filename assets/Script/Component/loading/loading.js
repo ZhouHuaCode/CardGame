@@ -54,7 +54,60 @@ cc.Class({
         var anyPBHelper = require('AnyPbHelp');
         cc.vv.pbHelp = new anyPBHelper();
         cc.vv.pbHelp.init();
-        
+
+
+        var util = require("util");
+        cc.vv.util = new util();
+        cc.vv.util.init();
+
+        var hu = require("Hu");
+        cc.vv.huPai = new hu();
+        cc.vv.huPai.init();
+
+        var UserMgr = require("UserMgr");
+        cc.vv.userMgr = new UserMgr();
+        cc.vv.userMgr.init();
+
+        var Dispatch = require("dispatchMsg");
+        cc.vv.dispatcher = new Dispatch();
+        cc.vv.dispatcher.init();
+
+        var httpMgr = require("HttpMgr");
+        cc.vv.http = new httpMgr();
+        cc.vv.http.init();
+
+        var NetWorker= require("Net");
+        cc.vv.net = new NetWorker();
+        cc.vv.net.init();
+
+        if (cc.vv.enum.OpenGuild) {
+            let guildNetWorker = require("guildNet");
+            cc.vv.guildNet = new guildNetWorker();
+            cc.vv.guildNet.init();
+        }
+
+        var AudioMgr = require("AudioMgr");
+        cc.vv.audioMgr = new AudioMgr();
+        cc.vv.audioMgr.init();
+
+        var Cry = require("CryptoMgr");
+        cc.vv.crypto = new Cry();
+        cc.vv.crypto.init();
+
+        var eventName = require("eventName");
+        cc.vv.eventName = new eventName();
+        cc.vv.eventName.init();
+
+        // if (cc.vv.enum.exportPlatForm == cc.vv.enum.PlatForm_WXWeb) {
+        //     var JsSdk = require("JsSdk");
+        //     cc.vv.JsSdk = new JsSdk();
+
+        //     this.node.getChildByName("New EditBox").active = false;
+            
+        //     cc.vv.JsSdk.share("土豪金麻将无需下载,点开即玩,快来和我一起玩吧","土豪金麻将无需下载,点开即玩,快来和我一起玩吧",
+        //     cc.vv.userMgr.shareUrl, cc.vv.userMgr.iconUrl);
+        // }
+
         cc.director.loadScene("LoginScene");
     },
 
